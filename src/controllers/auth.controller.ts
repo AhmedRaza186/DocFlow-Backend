@@ -5,9 +5,10 @@ import { asyncHandler } from '../utils/asyncHandler';
 
 const cookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
+  secure: true,
+  sameSite: 'none' as const,
   maxAge: 24 * 60 * 60 * 1000,
+  path: '/',
 };
 
 const setAuthCookie = (res: Response, token: string) => {
@@ -35,8 +36,9 @@ export const loginController = asyncHandler(async (req: Request, res: Response, 
 export const logoutController = asyncHandler(async (_req: Request, res: Response, _next: NextFunction) => {
   res.clearCookie('token', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    secure: true,
+    sameSite: 'none',
+    path: '/',
   });
 
   return sendSuccess(res, 200, 'Logged out successfully', null);
