@@ -12,7 +12,20 @@ import importRoutes from './routes/import.routes';
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5175",
+      "http://localhost:5174",
+      "http://localhost:5173",
+      "https://your-frontend.vercel.app",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
